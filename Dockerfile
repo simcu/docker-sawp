@@ -8,5 +8,5 @@ RUN apk add --update python=2.7.11-r3 \
     && pip install pytz \
     && rm -rf /var/cache/apk/* \
     && mv /home/simcu_awp.py /home/simcu-awp \
-    && chmod +x /home/simcu-awp && rm /home/git-pip.py
+    && chmod +x /home/simcu-awp && rm /home/get-pip.py
 ENTRYPOINT ["/home/simcu-awp"]
