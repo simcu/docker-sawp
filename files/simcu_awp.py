@@ -33,7 +33,8 @@ while 1:
         container_env = {}
         for env_item in container_info['Config']['Env']:
             env_str_arr = env_item.split('=')
-            container_env[env_str_arr[0]] = env_str_arr[1]
+            if (len(env_str_arr) == 2):
+                container_env[env_str_arr[0]] = env_str_arr[1]
         if (container_env.has_key('AWP_DOMAIN')):
             domainname = container_env['AWP_DOMAIN']
             if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
