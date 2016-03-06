@@ -34,6 +34,8 @@ while 1:
     for container in containers:
         container_info = sock.inspect_container(container=container['Id'])
         container_env = {}
+        if(not container_info['Config']['Env']):
+            continue
         for env_item in container_info['Config']['Env']:
             env_str_arr = env_item.split('=')
             if (len(env_str_arr) == 2):
