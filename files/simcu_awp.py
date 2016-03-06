@@ -23,6 +23,9 @@ httpstpl = open("/home/https.tpl")
 httpsstr = httpstpl.read()
 httpstpl.close()
 srvtpl = 'server %s:%s weight=10;'
+awp_host=os.getenv('HOSTNAME');
+awp_info = sock.inspect_container(container=awp_host)
+awp_net = awp_info['NetworkSettings']['Networks'].keys()
 while 1:
     newids = []
     newhttps = []
@@ -39,11 +42,14 @@ while 1:
             domainname = container_env['AWP_DOMAIN']
             if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
                 news[domainname] = []
-            news[domainname].append({
-                'container_name': container_info['Name'],
-                'ip': container_info['NetworkSettings']['IPAddress'],
-                'port': container_env['AWP_PORT'] if container_env.has_key('AWP_PORT') else '80'
-            })
+            for net_key in container_info['NetworkSettings']['Networks']:
+                if (net_key in awp_net):
+                    news[domainname].append({
+                        'container_name': container_info['Name'],
+                        'ip': container_info['NetworkSettings']['Networks'][net_key]['IPAddress'],
+                        'port': container_env['AWP_PORT'] if container_env.has_key('AWP_PORT') else '80'
+                    })
+                    break;
             newids.append(container['Id'])
             if os.path.exists("/https/%s/ssl.crt" % (domainname)) and os.path.exists(
                             "/https/%s/ssl.key" % (domainname)):
@@ -113,5 +119,6 @@ while 1:
                 print ' [ Failed ]'
                 print '-> Error : nginx server have error , will restart'.ljust(80)
                 exit()
+    print "\n\n\n\n\n"
     time.sleep(sleeptime)
     pass
