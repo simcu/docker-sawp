@@ -91,6 +91,7 @@ while 1:
             print '-> Error:'
             print ret
             print '-> Please check your configs , will do nothings'
+            print "\n"
         else:
             print "[ SUCCESS ]"
             print '-> reload config'.ljust(68, "."),
@@ -114,11 +115,11 @@ while 1:
                         print ("|    |- %s " % (nitem['container_name'])).ljust(60), nitem['ip'].ljust(15), nitem[
                             'port'].ljust(5)
                     print "|", "".center(78, "`")
+                    print "\n"
 
             else:
                 print ' [ Failed ]'
                 print '-> Error : nginx server have error , will restart'.ljust(80)
                 exit()
-    print "\n\n\n\n\n"
     time.sleep(sleeptime)
     pass
