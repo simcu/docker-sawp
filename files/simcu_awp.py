@@ -42,10 +42,10 @@ while 1:
                 container_env[env_str_arr[0]] = env_str_arr[1]
         if (container_env.has_key('AWP_DOMAIN')):
             domainname = container_env['AWP_DOMAIN']
-            if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
-                news[domainname] = []
             for net_key in container_info['NetworkSettings']['Networks']:
                 if (net_key in awp_net):
+                    if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
+                        news[domainname] = []
                     news[domainname].append({
                         'container_name': container_info['Name'],
                         'ip': container_info['NetworkSettings']['Networks'][net_key]['IPAddress'],
