@@ -2,8 +2,8 @@ build_image:
     type: build
     image: docker:git
     script:
-      - git clone --mirror $CI_BUILD_REPO
-      - cd awp
+      - git clone --mirror $CI_BUILD_REPO /tmp/mirror
+      - cd /tmp/mirror
       - git push --mirror https://$GITHUB_USER:$GITHUB_PASS@github.com/simcu/docker-sawp
       - git status
       - cat .git/config
