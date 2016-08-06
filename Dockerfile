@@ -1,6 +1,6 @@
 FROM alpine
 ADD files /home
-RUN apk add --update python=2.7.11-r3 \
+RUN apk add --update python=2.7.12-r0 \
 	&& apk add nginx \
 	&& mv /home/nginx.conf /etc/nginx/nginx.conf \
 	&& python /home/get-pip.py \
