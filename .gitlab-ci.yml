@@ -1,0 +1,16 @@
+build_image:
+    type: build
+    image: docker:git
+    script:
+      - git clone --mirror $CI_BUILD_REPO /tmp/mirror
+      - cd /tmp/mirror
+      - git push --mirror https://$GITHUB_USER:$GITHUB_PASS@github.com/simcu/docker-sawp
+      - git status
+      - cat .git/config
+      - docker build -t registry.simcu.com/docker/awp:latest .
+      - docker tag $(docker images -q registry.simcu.com/docker/awp:latest) registry.simcu.com/docker/awp:$CI_BUILD_REF
+      - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.simcu.com
+      - docker push registry.simcu.com/docker/awp:$CI_BUILD_REF
+      - docker push registry.simcu.com/docker/awp:latest
+    only:
+      - master
