@@ -10,3 +10,5 @@ RUN apk add --update python=2.7.12-r0 \
     && mv /home/simcu_awp.py /home/simcu-awp \
     && chmod +x /home/simcu-awp && rm /home/get-pip.py
 ENTRYPOINT ["/home/simcu-awp"]
+VOLUME /var/run/docker.sock
+EXPOSE 80
