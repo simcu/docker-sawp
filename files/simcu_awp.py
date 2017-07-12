@@ -118,8 +118,8 @@ while 1:
                     print ("|- [ %s://%s ]" % (prot, key)).ljust(40), ("[ Containers: %d ] " % (len(news[key]))).rjust(
                             40)
                     for nitem in news[key]:
-                        print ("|    |- %s " % (nitem['container_name'])).ljust(60), nitem['ip'].ljust(15), nitem[
-                            'port'].ljust(5)
+                        print ("|    |- %s " % (nitem['container_name'])).ljust(60), nitem['ip'].ljust(15), ("%s" % nitem[
+                            'port']).ljust(5)
                     print "|", "".center(78, "`")
                 print "\n"
 
