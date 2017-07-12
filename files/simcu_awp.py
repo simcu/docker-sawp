@@ -83,8 +83,8 @@ while 1:
                 temp = httpsstr.replace('%upstream%', upstream)
                 temp = temp.replace('%servers%', upstreamsrvs)
                 temp = temp.replace('%domainname%', key)
-                temp = temp.replace('%sslpem%', "/https/%s/ssl.crt" % (key))
-                temp = temp.replace('%sslkey%', "/https/%s/ssl.key" % (key))
+                temp = temp.replace('%sslpem%', "/https/%s.crt" % (key))
+                temp = temp.replace('%sslkey%', "/https/%s.key" % (key))
             else:
                 temp = httpstr.replace('%upstream%', upstream)
                 temp = temp.replace('%servers%', upstreamsrvs)
