@@ -40,22 +40,29 @@ while 1:
             env_str_arr = env_item.split('=')
             if (len(env_str_arr) == 2):
                 container_env[env_str_arr[0]] = env_str_arr[1]
-        if (container_env.has_key('AWP_DOMAIN')):
-            domainname = container_env['AWP_DOMAIN']
-            for net_key in container_info['NetworkSettings']['Networks']:
-                if (net_key in awp_net):
-                    if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
-                        news[domainname] = []
-                    news[domainname].append({
-                        'container_name': container_info['Name'],
-                        'ip': container_info['NetworkSettings']['Networks'][net_key]['IPAddress'],
-                        'port': container_env['AWP_PORT'] if container_env.has_key('AWP_PORT') else '80'
-                    })
-                    break;
-            newids.append(container['Id'])
-            if os.path.exists("/https/%s/ssl.crt" % (domainname)) and os.path.exists(
-                            "/https/%s/ssl.key" % (domainname)):
-                newhttps.append(domainname)
+        if (container_env.has_key('AWP')):
+            domains = container_env['AWP'].split(',')
+            for ditem in domains:
+                dinfo = ditem.split(':')
+                domainname = dinfo[0]
+                if(len(dinfo)==1):
+                    domainport = 80
+                else:
+                    domainport = dinfo[1]
+                for net_key in container_info['NetworkSettings']['Networks']:
+                    if (net_key in awp_net):
+                        if (not (news.has_key(domainname)) or not (isinstance(news[domainname], list))):
+                            news[domainname] = []
+                        news[domainname].append({
+                            'container_name': container_info['Name'],
+                            'ip': container_info['NetworkSettings']['Networks'][net_key]['IPAddress'],
+                            'port': domainport
+                        })
+                        break;
+                newids.append(container['Id'])
+                if os.path.exists("/https/%s.crt" % (domainname)) and os.path.exists(
+                                "/https/%s.key" % (domainname)):
+                    newhttps.append(domainname)
     newids.sort()
     oldids.sort()
     newhttps.sort()
@@ -103,9 +110,6 @@ while 1:
                 oldids = newids
                 oldhttps = newhttps
                 print " Sites List ".center(80, "-")
-                print "|", ('* Sites: %s *' % (len(news))).center(38), ('* Containers: %s *' % (len(newids))).center(
-                        38), "|"
-                print "".center(80, "-")
                 for key in news.keys():
                     if key in newhttps:
                         prot = "https"
