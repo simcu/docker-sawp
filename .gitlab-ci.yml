@@ -3,9 +3,9 @@ build_image:
     image: docker:git
     script:
       - docker build -t registry.simcu.com/docker/awp:latest .
-      - docker tag $(docker images -q registry.simcu.com/docker/awp:latest) registry.simcu.com/docker/awp:$CI_BUILD_REF
+      - docker tag $(docker images -q registry.simcu.com/docker/sawp:latest) registry.simcu.com/docker/awp:$CI_BUILD_REF
       - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.simcu.com
-      - docker push registry.simcu.com/docker/awp:$CI_BUILD_REF
-      - docker push registry.simcu.com/docker/awp:latest
+      - docker push registry.simcu.com/docker/sawp:$CI_BUILD_REF
+      - docker push registry.simcu.com/docker/sawp:latest
     only:
       - master
